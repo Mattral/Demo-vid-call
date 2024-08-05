@@ -23,7 +23,7 @@ export const sidebarLinks = [
   {
     imgURL: "/icons/msg.svg",
     route: "/VideoDirect",
-    label: "Direct",
+    label: "ReDirect",
   },
   {
     imgURL: "/icons/Video.svg",
