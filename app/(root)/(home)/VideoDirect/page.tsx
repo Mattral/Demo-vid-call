@@ -1,5 +1,22 @@
 "use client";
 
+import { useEffect } from "react";
+
+const Meeting = () => {
+  useEffect(() => {
+    // Redirect to the external link
+    window.location.href = "https://wldemo-gonns-projects.vercel.app";
+  }, []);
+
+  return null; // No need to render anything as the redirection is handled
+};
+
+export default Meeting;
+
+
+/*
+"use client";
+
 import Alert from "@/components/Alert";
 import Loader from "@/components/Loader";
 import MeetingRoom from "@/components/MeetingRoom";
@@ -49,3 +66,4 @@ const Meeting = ({ params }: { params: { id: string } }) => {
 };
 
 export default Meeting;
+*/
