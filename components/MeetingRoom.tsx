@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   CallControls,
   CallParticipantsList,
@@ -23,6 +23,7 @@ import {
 import Loader from "./Loader";
 import { cn } from "@/lib/utils";
 import EndCallButton from "./EndCallButton";
+import Timer from "./Timer";
 
 type CallLayoutType = "grid" | "speaker-left" | "speaker-right";
 
@@ -35,27 +36,6 @@ const MeetingRoom = () => {
   const [showButtons, setShowButtons] = useState(false);
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
-  const [elapsedTime, setElapsedTime] = useState(0);
-
-  useEffect(() => {
-    let intervalId: NodeJS.Timeout | null = null;
-    let alertIntervalId: NodeJS.Timeout | null = null;
-
-    if (callingState === CallingState.JOINED) {
-      intervalId = setInterval(() => {
-        setElapsedTime((prevTime) => prevTime + 1);
-      }, 1000);
-
-      alertIntervalId = setInterval(() => {
-        setShowButtons(true);
-      }, 5 * 60 * 1000);
-    }
-
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-      if (alertIntervalId) clearInterval(alertIntervalId);
-    };
-  }, [callingState]);
 
   const handleContinue = () => {
     setShowButtons(false);
@@ -81,17 +61,9 @@ const MeetingRoom = () => {
     }
   };
 
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-  };
-
   return (
     <section className="relative h-screen w-full overflow-hidden pt-4 text-black">
-      <div className="absolute top-4 left-4 text-xl font-bold">
-        {formatTime(elapsedTime)}
-      </div>
+      <Timer onAlert={() => setShowButtons(true)} />
       <div className="relative flex size-full items-center justify-center">
         <div className="flex size-full max-w-[1000px] items-center">
           <CallLayout />
@@ -152,6 +124,7 @@ const MeetingRoom = () => {
 };
 
 export default MeetingRoom;
+
 
 
 /*
